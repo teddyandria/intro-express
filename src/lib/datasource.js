@@ -1,3 +1,5 @@
+//ce fichier permet la récuperation de données
+
 import { DataSource } from "typeorm";
 import WilderEntity from "../entity/Wilder.entity";
 

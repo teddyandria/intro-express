@@ -22,9 +22,27 @@ app.post("/wilder/create", async (req, res) => {
     res.send(wilder);
 });
 
+app.get("/wilder/list", async (req, res) => {
+    const { email, first_name, last_name } = req.query;
+    let wilder = await new WilderService.getWilders({
+        email,
+        first_name,
+        last_name,
+    })
+    res.send(wilder);
+})
+
+app.delete("/wilder/delete/:id", async (req, res) => {
+    const { id } = req.params.id;
+    const wilder = await new WilderService().deleteWilder({
+        id,
+    });
+    res.send(wilder);
+})
+
 const start = async () => {
     await datasource.initialize();
-    app.listen(4000, () => console.log('Serveur démarré sur le port 3000'))
+    app.listen(8000, () => console.log('Serveur démarré sur le port 3000'))
 };
 
 start();
