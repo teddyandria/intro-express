@@ -4,16 +4,14 @@ import datasource from './lib/datasource';
 import maFonction from "./lib/utilities";
 import cors from "cors";
 import WilderService from './services/Wilder.service';
+import WilderRoutes from "./routes/wilder.routes";
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(cors());
 
-// app.get('/', function (req, res) {
-//     // res.send('Bonjour')
-//     // res.json({ message: 'Hello world' })
-// })
+app.use("/wilder", WilderRoutes);
 app.post("/wilder/create", async (req, res) => {
     const { email, first_name, last_name } = req.body;
     let wilder = await new WilderService().createWilder({
