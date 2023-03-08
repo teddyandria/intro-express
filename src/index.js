@@ -5,11 +5,15 @@ import maFonction from "./lib/utilities";
 import cors from "cors";
 import WilderService from './services/Wilder.service';
 import WilderRoutes from "./routes/wilder.routes";
+import LanguageService from './services/Language.service';
+import LanguageRoutes from "./routes/language.routes";
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(cors());
+
+app.use("/language", LanguageRoutes);
 
 app.use("/wilder", WilderRoutes);
 app.post("/wilder/create", async (req, res) => {

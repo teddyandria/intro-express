@@ -1,4 +1,6 @@
 import datasource from "../lib/datasource"
+import LanguageService from "./Language.service";
+import NoteService from "./Note.service";
 
 export default class WilderService {
     // le constructeur qui charge db pour chaque instanciation (quand je le fais new)
@@ -21,7 +23,6 @@ export default class WilderService {
             throw new Error("Ce wilder n'existe pas");
         }
         return wilder;
-
     }
 
     async deleteById(id) {
@@ -46,7 +47,25 @@ export default class WilderService {
         return await this.db.save(wilder); //sauvegarde des données dans la base de données.
 
         //solution 2 
+
         // let res = await this.db.update(wilder.id, other);
         // return res
+    }
+
+    async assignNote({ languageId, wilderId, note }) {
+        const language = await new LanguageService().findById(languageId);
+        const wilder = await this.findById(wilderId);
+        let previousNote = await new NoteService().findByRelation({
+            language,
+            wilder,
+        });
+
+        const noteResult = await new NoteService().saveNote({
+            ...previousNote,
+            language: languageId,
+            wilder: wilderId,
+            note
+        });
+        return noteResult;
     }
 }
