@@ -32,6 +32,7 @@ router.get("/list", async (req, res) => {
         });
     }
 });
+
 router.delete("/delete/:id", async (req, res) => {
     const { id } = req.params;
     try {
@@ -62,5 +63,24 @@ router.patch("/update/:id", async (req, res) => { // patch permet de modifier PA
         })
     }
 });
+
+router.post("/assignNote", async (req, res) => {
+    const { wilderId, languageId, note } = req.body;
+    try {
+        // faire l'assignation
+        const result = await new WilderService().assignNote({
+            languageId,
+            wilderId,
+            note,
+        });
+        res.json(result);
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err.message,
+        });
+    }
+});
+
 
 export default router;

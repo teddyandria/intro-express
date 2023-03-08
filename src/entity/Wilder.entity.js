@@ -4,7 +4,6 @@ import { EntitySchema } from "typeorm";
 //création de la table Wilder avec les différents champs.
 export default new EntitySchema({
     name: "Wilder",
-    tableName: "Wilders",
     columns: {
         id: {
             primary: true,

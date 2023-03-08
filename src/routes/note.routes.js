@@ -1,17 +1,18 @@
 import express from "express";
-import LanguageService from "../services/Language.service";
-
+import NoteService from "../services/Note.service";
 const router = express.Router();
 
-router.post("/add", async (req, res) => {
+router.post("/create", async (req, res) => {
+    // http://localhost/note/create
     const { label } = req.body;
     try {
-        const language = await new LanguageService().createLanguage({
+        const note = await new NoteService().createLanguage({
             label,
         });
-        res.json(language);
+
+        res.json(note);
     } catch (err) {
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err.message,
         });
@@ -20,56 +21,54 @@ router.post("/add", async (req, res) => {
 
 router.get("/list", async (req, res) => {
     try {
-        const languages = await new LanguageService().listLanguage({});
-        res.json(languages);
+        const noteList = await new NoteService().list();
+        res.json(noteList);
     } catch (err) {
-        res.status(404).json({
+        res.status(500).json({
             success: false,
             message: err.message,
         });
     }
 });
-
 router.get("/find/:id", async (req, res) => {
     const { id } = req.params;
     try {
-        const language = await new LanguageService().findById(id);
-        res.json(languages);
+        const note = await new NoteService().findById(id);
+        res.json(note);
     } catch (err) {
-        res.status(404).json({
+        res.status(500).json({
             success: false,
             message: err.message,
         });
     }
-})
-
+});
 router.delete("/delete/:id", async (req, res) => {
     const { id } = req.params;
     try {
-        const resultLanguage = await new WilderService().deleteById(id);
-        res.json(resultLanguage);
+        const result = await new NoteService().delete(id);
+        res.json(result);
     } catch (err) {
-        res.status(404).json({
+        res.status(500).json({
             success: false,
             message: err.message,
-        })
+        });
     }
 });
-
 router.patch("/update/:id", async (req, res) => {
-    const { id } = req.params; //récupération de l'ID du wilder
-    const { label } = req.body; // on récupere également les autres données car on utilise PATCH
+    const { id } = req.params;
+    const { label } = req.body;
+
     try {
-        const language = await new LanguageService().update({
+        const note = await new NoteService().update({
             id,
             label,
-        })
-        res.json(language);
+        });
+        res.json(note);
     } catch (err) {
-        res.status(404).json({
+        res.status(500).json({
             success: false,
             message: err.message,
-        })
+        });
     }
 });
 
