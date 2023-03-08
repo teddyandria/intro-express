@@ -21,7 +21,6 @@ export default class WilderService {
             throw new Error("Ce wilder n'existe pas");
         }
         return wilder;
-
     }
 
     async deleteById(id) {
@@ -46,6 +45,7 @@ export default class WilderService {
         return await this.db.save(wilder); //sauvegarde des données dans la base de données.
 
         //solution 2 
+
         // let res = await this.db.update(wilder.id, other);
         // return res
     }
